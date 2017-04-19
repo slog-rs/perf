@@ -1,0 +1,15 @@
+[package]
+name = "slog-pref"
+version = "0.1.0"
+authors = ["Dawid Ciężarkiewicz <dpc@dpc.pw>"]
+description = "Performance and timing for slog-rs"
+keywords = ["slog", "logging", "log", "term"]
+license = "MPL-2.0"
+documentation = "https://docs.rs/slog-perf"
+homepage = "https://github.com/slog-rs/perf"
+repository = "https://github.com/slog-rs/perf"
+readme = "README.md"
+
+
+[dependencies]
+slog = "2"
