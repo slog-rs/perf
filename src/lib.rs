@@ -1,3 +1,5 @@
+//! This crate provides very useful tools for reporting performance metrics
+//! through `slog`.
 #[macro_use]
 extern crate slog;
 
@@ -21,10 +23,10 @@ pub struct TimeReporter {
 
 impl TimeReporter {
     /// Create new `TimeReporter`
-    pub fn new(name: String, log: Logger) -> TimeReporter {
+    pub fn new<S : Into<String>>(name: S, log: Logger) -> TimeReporter {
         TimeReporter {
             times: HashMap::new(),
-            name: name,
+            name: name.into(),
             log: log,
             cur_state_time: None,
         }
@@ -42,6 +44,18 @@ impl TimeReporter {
         self.save_current(now);
 
         self.cur_state_time = Some((key, now))
+    }
+
+    /// Start counting time and execute a function `f`
+    ///
+    /// This is handy syntax for `if let` or `while let` expressions
+    /// where it would be inconvenient to add standalone `start` call.
+    pub fn start_with<F, R>(&mut self, key :&'static str, f: F) -> R
+        where F: FnOnce() -> R
+    {
+        self.start(key);
+
+        f()
     }
 
     fn save_current(&mut self, now: time::Instant) {
@@ -79,13 +93,13 @@ impl<'a> slog::KV for TimeReporterDroper<'a> {
             .collect();
 
         // TODO: or by duration?
-        stats.sort_by_key(|s| s.0);
+        stats.sort_by_key(|s| s.1);
 
         ser.emit_arguments(
             "name", &format_args!("{}", self.reporter.name)
             )?;
 
-        for &(state, dur) in &stats {
+        for &(state, dur) in stats.iter().rev() {
             ser.emit_arguments(
                 state,
                 &format_args!("{}",
@@ -93,6 +107,8 @@ impl<'a> slog::KV for TimeReporterDroper<'a> {
                             + dur.subsec_nanos() as f64 / 1000000000f64)
                 )?;
         }
+
+
         Ok(())
     }
 }
