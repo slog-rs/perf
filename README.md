@@ -25,7 +25,7 @@ through `slog`.
 
 Check documentation for details and [reverse dependencies] for examples.
 
-[reverse dependencies]: https://crates.io/crates/slog/reverse_dependencies
+[reverse dependencies]: https://crates.io/crates/slog-perf/reverse_dependencies
 
 For more information about slog, help, to report issues etc. see [slog-rs][slog-rs].
 
