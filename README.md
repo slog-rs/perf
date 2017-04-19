@@ -37,6 +37,7 @@ For more information about slog, help, to report issues etc. see [slog-rs][slog-
 The following is a sample output taken from [`rdedup`][rdedup]. Read more on
 [Rust's fearless concurrency in rdedup](http://dpc.pw/blog/2017/04/rusts-fearless-concurrency-in-rdedup/)
 
+[rdedup]: https://github.com/dpc/rdedup
 
 ```
 Apr 18 21:07:01.604 INFO time report, name: input-reader, tx: 3.595258855, input: 0.246253282
